@@ -80,4 +80,4 @@ flowchart TD
 
 ## Copyright
 
-Copyright and related rights waived via [MIT](../LICENSE).
+Copyright and related rights waived via [MIT](./LICENSE).
