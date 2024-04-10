@@ -3,14 +3,13 @@
 /// # OwnDappManage Component
 ///
 /// See [the documentation](https://docs.mossdapp.com)
-/// for examples.
 #[starknet::component]
 mod OwnDappManageComponent {
     use starknet::ContractAddress;
     use starknet::ClassHash;
     use starknet::account::Call;
     use starknet::SyscallResultTrait;
-    use super_dapp::interface::IOwnDappManage;
+    use owndapp_manage::owndapp_manage::interface;
 
 
     #[storage]
@@ -46,11 +45,11 @@ mod OwnDappManageComponent {
     > of interface::IOwnDappManage<ComponentState<TContractState>> {
 
         fn set_own_dapps(
-            ref self: ContractState,
+            ref self: ComponentState<TContractState>,
             dapps: Array<starknet::ClassHash>,
             status: Array<bool>
         ) {
-            assert(dapps.len() == status.len(), 'SDapp: length mismatch');
+            assert(dapps.len() == status.len(), 'DappM: length mismatch');
             let mut i: usize = 0;
             let j: usize = dapps.len();
             loop {
@@ -65,42 +64,42 @@ mod OwnDappManageComponent {
 
 
         fn get_own_dapp_state(
-            self: @ContractState,
+            self: @ComponentState<TContractState>,
             dapp: ClassHash
         ) -> bool {
             // Dapp Registry verification
             self.Own_dapps.read(dapp)
         }
 
-        fn set_approval_all_dapps(ref self: ContractState, approved: bool){
+        fn set_approval_all_dapps(ref self: ComponentState<TContractState>, approved: bool){
             self.Approval_all_dapps.write(approved);
             self.emit(SetApprovalAllDapp { dapp_manage: starknet::get_contract_address(), approved });
         }
 
-        fn get_approval_all_dapps(self: @ContractState) -> bool{
+        fn get_approval_all_dapps(self: @ComponentState<TContractState>) -> bool{
             self.Approval_all_dapps.read()
         }
 
 
         fn execute_own_dapp(
-            ref self: ContractState,
+            ref self: ComponentState<TContractState>,
             dapp: starknet::ClassHash,
             selector: felt252,
             calldata: Array<felt252>
         ) -> Span<felt252> {
-            assert(self.get_own_dapp_state(dapp), 'SDapp: not support this dapp');
+            assert(self.get_own_dapp_state(dapp), 'DappM: not support this dapp');
             starknet::library_call_syscall(dapp, selector, calldata.span())
                 .unwrap()
         }
 
 
         fn read_own_dapp(
-            self: @ContractState,
+            self: @ComponentState<TContractState>,
             dapp: starknet::ClassHash,
             selector: felt252,
             calldata: Array<felt252>
         ) -> Span<felt252> {
-            assert(self.get_own_dapp_state(dapp), 'SDapp: not support this dapp');
+            assert(self.get_own_dapp_state(dapp), 'DappM: not support this dapp');
             starknet::library_call_syscall(dapp, selector, calldata.span())
                 .unwrap()
         }

@@ -2,5 +2,5 @@
 version = 1
 
 [[package]]
-name = "super_dapp"
+name = "owndapp_manage"
 version = "0.1.0"
