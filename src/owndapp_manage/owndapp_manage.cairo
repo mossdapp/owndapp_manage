@@ -1,11 +1,16 @@
-#[starknet::contract]
+// SPDX-License-Identifier: MIT
 
-mod SupperDapp {
+/// # OwnDappManage Component
+///
+/// See [the documentation](https://docs.mossdapp.com)
+/// for examples.
+#[starknet::component]
+mod OwnDappManageComponent {
     use starknet::ContractAddress;
     use starknet::ClassHash;
     use starknet::account::Call;
     use starknet::SyscallResultTrait;
-    use super_dapp::own_dapp_manage::interface::IOwnDappManage;
+    use super_dapp::interface::IOwnDappManage;
 
 
     #[storage]
@@ -34,8 +39,11 @@ mod SupperDapp {
         approved: bool
     }
 
-    #[external(v0)]
-    impl OwnDappManageImpl of IOwnDappManage<ContractState> {
+
+    #[embeddable_as(OwnDappManageImpl)]
+    impl OwnDappManage<
+        TContractState, +HasComponent<TContractState>
+    > of interface::IOwnDappManage<ComponentState<TContractState>> {
 
         fn set_own_dapps(
             ref self: ContractState,
