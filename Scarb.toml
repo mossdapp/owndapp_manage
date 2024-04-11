@@ -9,3 +9,7 @@ starknet = "2.6.3"
 
 [[target.starknet-contract]]
 
+[lib]
+
+[workspace.tool.fmt]
+sort-module-level-items = true

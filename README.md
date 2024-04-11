@@ -50,7 +50,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     
-    subgraph owndapp_manage A
+    subgraph Own Dapp manage A
 			  StateA
 			  StateC
 			  StateD
