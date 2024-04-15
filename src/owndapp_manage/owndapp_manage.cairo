@@ -68,7 +68,13 @@ mod OwnDappManageComponent {
             dapp: ClassHash
         ) -> bool {
             // Dapp Registry verification
-            self.Own_dapps.read(dapp)
+            let state = self.Approval_all_dapps.read();
+            if state == true {
+                state
+            }
+            else {
+                self.Own_dapps.read(dapp)
+            }
         }
 
         fn set_approval_all_dapps(ref self: ComponentState<TContractState>, approved: bool){
