@@ -53,7 +53,7 @@ mod OwnDappManageComponent {
             let mut i: usize = 0;
             let j: usize = dapps.len();
             loop {
-                if i > j {
+                if i >= j {
                     break;
                 }
                 self.Own_dapps.write(*dapps[i], *status[i]);
